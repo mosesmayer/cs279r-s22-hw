@@ -1,0 +1,261 @@
+/* CSS Variables -- helps us abstract standardized values */
+:root {
+    --primary: #32e3ae;
+    --bubble-color: #269afa;
+    --light: #EEE;
+    --grey: #888;
+    --dark: #313154;
+    --danger: #ff5b57;
+
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+}
+
+/* End of variables */
+
+
+/* Resets */
+/* Best practices; overwrites any existing CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* CSS Selectors --  :not(selector) selects all elements that arent selected by 
+   selector. Initial tutorial code has input:not([type="radio"]):not([type="checkbox"]),
+   but since we are omitting the radio buttons we have modified the query to just
+   capture all buttons that aren't a checkbox. In this case our version will
+   select all <input> elements for which the type isn't a checkbox, along with 
+   all <button> elements (from the comma), and hide them (by setting appearance
+   and other properties to none) */
+input:not([type="checkbox"]),
+button {
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: initial;
+}
+
+/* End of Resets */
+
+/* Sets overall background color and text colors, along with padding */
+body {
+    background: var(--light);
+    color: var(--dark);
+}
+
+/* We've used sections in our html code to segment the app into parts */
+section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* Section headers ("Create Todo, To do") */
+h3 {
+    color: var(--dark);
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+}
+
+/* Subheaders */
+h4 {
+    color: var(--grey);
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Recall that .greeting .title selects elements with class title placed inside
+   an element with class greeting. Similarly, .greeting .title input takes <input>
+   elements inside elements with class title nested in elements with class greeting. */
+
+/* display: flex ensures child elements autoadjust width/height */
+.greeting .title {
+    display: flex;
+}
+
+/* flex is shorthand for flex-grow (item growth ratio vs. other items when
+   autoadjusting sizes), flex-shrink (same as flex-grow but for shrinking), and
+   flex-basis (the initial length). This targets the name entry portion */
+.greeting .title input {
+    margin-left: 0.5rem;
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.greeting .title,
+.greeting .title input {
+    color: var(--dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Todo list elements */
+.create-todo input[type="text"] {
+    display: block;
+    width: 100%;
+    font-size: 1.125rem;
+    padding: 1rem 1.5rem;
+    color: var(--dark);
+    background-color: #FFF;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+}
+
+.create-todo .options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.create-todo .options label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    /* hides the default checkbox illustration */
+    display: none;
+}
+
+/* Styles the bubble that shows whether a todo has been done */
+.bubble {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    border: 2px solid var(--bubble-color);
+}
+
+.bubble::after {
+    content: '';
+    display: block;
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+    background-color: var(--bubble-color);
+    border-radius: 999px;
+    transition: 0.2s ease-in-out;
+}
+
+input:checked~.bubble::after {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+}
+
+.create-todo .options label div {
+    color: var(--dark);
+    font-size: 1.125rem;
+    margin-top: 1rem;
+}
+
+.create-todo input[type="submit"] {
+    display: block;
+    width: 100%;
+    font-size: 1.125rem;
+    padding: 1rem 1.5rem;
+    color: #FFF;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: var(--primary);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+}
+
+.create-todo input[type="submit"]:hover {
+    opacity: 0.75;
+}
+
+/* Styles for todo list body */
+
+/* Sets margins for the list itself*/
+.todo-list .list {
+    margin: 1rem 0;
+}
+
+.todo-list .todo-item {
+    display: flex;
+    align-items: center;
+    background-color: #FFF;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+}
+
+.todo-item label {
+    /* label element that houses done/not done controls */
+    display: block;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+/* individual todo content text */
+.todo-item .todo-content {
+    flex: 1 1 0%;
+}
+
+.todo-item .todo-content input {
+    color: var(--dark);
+    font-size: 1.125rem;
+}
+
+/* Here onwards -- we have styles for the edit and delete buttons */
+.todo-item .actions {
+    display: flex;
+    align-items: center;
+}
+
+.todo-item .actions button {
+    display: block;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    color: #FFF;
+    cursor: pointer;
+
+    /* This eases in the opacity change, hence allowing for a subtly smoother look */
+    transition: 0.2s ease-in-out;
+}
+
+
+.todo-item .actions button:hover {
+    /* when a button is hovered over, changing the opacity provides a visual cue
+    that the button can be clicked */
+    opacity: 0.75;
+}
+
+.todo-item .actions .edit {
+    /* spacing purposes from delete btn */
+    margin-right: 0.5rem;
+    background-color: var(--primary);
+}
+
+.todo-item .actions .delete {
+    background-color: var(--danger);
+}
+
+.todo-item.done .todo-content input {
+    /* selects the todo items that are done and changes the text to be struck
+    through for another visual cue that the todo is done */
+    text-decoration: line-through;
+    color: var(--grey);
+}
