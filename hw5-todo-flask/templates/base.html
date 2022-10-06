@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+
+    <!-- Semantic UI imports -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+<body>
+    <div style="margin-top: 50px;" class="ui container">
+        <h1 class="ui center aligned header">To Do App</h1>
+
+        <form class="ui form" action="/add" method="post">
+            <div class="field">
+                <label>Todo Title</label>
+                <input type="text" name="title" placeholder="Enter Todo..."><br>
+            </div>
+            <button class="ui blue button" type="submit">Add</button>
+        </form>
+
+        <hr>
+
+        <!-- Jinja template engine used to embed stuff into the template -->
+        <!-- things in { % % } are parsed as python statements. Pretty reminiscent of EJS -->
+        {% for todo in todo_list %}
+        <div class="ui segment">
+            {% if todo.editing %}
+            <!-- Editing functionality! -->
+            <form class="ui form" method="post" action="/edit/{{ todo.id }}">
+                <div style="display: flex; flex-direction: row; align-items: center;">
+                    <p class="ui big header" style="margin-top: 0; margin-bottom: 0; white-space: nowrap">
+                        {{ todo.id }} |
+                    </p>
+                    <input type="text" name="todoTitle" value="{{ todo.title }}" placeholder="Enter Todo..."
+                        maxlength="100">
+                    <!-- <a class="ui blue button" href="/edit/{{ todo.id }}"> -->
+                    <input type="submit" class="ui green button" value="Save">
+                    <!-- </a> -->
+                </div>
+            </form>
+            {% else %}
+            <div style="margin-bottom: 3px;">
+                <p class="ui big header" style="display:inline;word-break:break-all;">
+                    <!-- css here just to wrap the whole todo within the div-->
+                    {{todo.id }} | {{ todo.title }}
+                </p>
+                <a class="ui blue button" href="/edit/{{ todo.id }}">Edit</a>
+            </div>
+            {% endif %}
+
+            {% if todo.complete == False %}
+            <span class="ui gray label">Not Complete</span>
+            <!-- We're gonna deviate from the tutorial here and have different button
+                 text for clarity purposes -->
+            <a class="ui blue button" href="/update/{{ todo.id }}">Mark as Completed</a>
+            {% else %}
+            <span class="ui green label">Completed</span>
+            <a class="ui blue button" href="/update/{{ todo.id }}">Mark as Not Completed</a>
+            {% endif %}
+
+            <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
